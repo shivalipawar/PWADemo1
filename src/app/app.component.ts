@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient  } from "@angular/common/http";
-import {SwUpdate} from '@angular/service-worker';
+import {SwUpdate, SwPush} from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +13,11 @@ export class AppComponent implements OnInit {
   count=1;
   randomData: number[];
   userObjectCommnt: string;
+  readonly VAPID_PUBLIC_KEY ="BME1tinBEiCxGB8GONjiD_cmGXVe1Gqp2LORXrbFd38kKN3zTLYI4DLTgLj8hAGNDQki4OArawRCwIVwVjW7F1o";
 
   constructor(private httpClient: HttpClient,
-    private swUpdate: SwUpdate){}
+    private swUpdate: SwUpdate,
+    private swPush : SwPush){}
 
     ngOnInit() {
       if (this.swUpdate.isEnabled) {
@@ -30,6 +32,14 @@ export class AppComponent implements OnInit {
         this.userObjectCommnt = JSON.stringify(res.title);
     });
     this.count++;
+    }
+
+    subscribeToNotifications(){
+      this.swPush.requestSubscription({
+        serverPublicKey : this.VAPID_PUBLIC_KEY
+      })
+      .then(sub => console.error("Successful subscription to notifications", JSON.stringify(sub)))
+      .catch(err => console.error("Could not subscribe to notifications", err));
     }
 
   getNumber(){
