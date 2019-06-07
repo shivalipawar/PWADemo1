@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient  } from "@angular/common/http";
 import {SwUpdate, SwPush} from '@angular/service-worker';
+import { PushNotificationService } from './service/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,13 @@ export class AppComponent implements OnInit {
   count=1;
   randomData: number[];
   userObjectCommnt: string;
-  readonly VAPID_PUBLIC_KEY ="BME1tinBEiCxGB8GONjiD_cmGXVe1Gqp2LORXrbFd38kKN3zTLYI4DLTgLj8hAGNDQki4OArawRCwIVwVjW7F1o";
+   sub: PushSubscription;
+  readonly VAPID_PUBLIC_KEY ="BIXkYQtZj7QqY4jln7NOIpFk5jr4qK03kSkD5j7jVdZcmbjUZ8KVe4fwTkYgmJdMRCBu2MvlU_jTCcpg5kvo4S8";
 
   constructor(private httpClient: HttpClient,
     private swUpdate: SwUpdate,
-    private swPush : SwPush){}
+    private swPush : SwPush,
+    private pushNotificationService: PushNotificationService){}
 
     ngOnInit() {
       if (this.swUpdate.isEnabled) {
@@ -35,12 +38,39 @@ export class AppComponent implements OnInit {
     }
 
     subscribeToNotifications(){
-      this.swPush.requestSubscription({
-        serverPublicKey : this.VAPID_PUBLIC_KEY
-      })
-      .then(sub => console.error("Successful subscription to notifications", JSON.stringify(sub)))
-      .catch(err => console.error("Could not subscribe to notifications", err));
+    //   this.swPush.requestSubscription({
+    //     serverPublicKey : this.VAPID_PUBLIC_KEY
+    //   })
+    //   .then(sub => {
+    //         this.sub = sub;
+    //         console.log("Notification Subscription: ", sub);
+    //     console.log("Successful subscription to notifications", JSON.stringify(sub))
+    // })
+    //   .catch(err => console.error("Could not subscribe to notifications", err));
+
+    this.swPush.requestSubscription({
+      serverPublicKey: this.VAPID_PUBLIC_KEY
+  })
+  .then(sub => {
+
+      this.sub = sub;
+
+
+      console.log("Notification Subscription: ", sub);
+
+      this.pushNotificationService.addPushSubscriber(sub).subscribe(
+          () => console.log('Sent push subscription object to server.'),
+          err =>  console.log('Could not send subscription object to server, reason: ', err)
+      );
+
+  })
+  .catch(err => console.error("Could not subscribe to notifications", err));
     }
+
+    sendPushnotification() {
+      console.log("Sending Newsletter to all Subscribers ...");
+      this.pushNotificationService.send().subscribe();
+  }
 
   getNumber(){
     this.httpClient.get("https://jsonplaceholder.typicode.com/posts/"+this.count).subscribe((res:any)=>{
