@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
   }
 
   downloadPdf(): Observable<Blob>{
-    let uri = 'http://www.africau.edu/images/default/sample.pdf';
+    let uri = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
     // Note here that you cannot use the generic get<Blob> as it does not compile: instead you "choose" the appropriate API in this way.
     return this.httpClient.get(uri, { responseType: 'blob' });
   }
