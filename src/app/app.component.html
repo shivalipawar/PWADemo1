@@ -3,18 +3,47 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <img width="300" alt="Angular Logo" src="https://angular.io/assets/images/logos/angular/angular.svg"> 
+  <!-- <img width="300" alt="Angular Logo" src="https://angular.io/assets/images/logos/angular/angular.svg">  -->
   <!-- src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" -->
 </div>
 <!-- <h4>{{userObjectCommnt}}</h4> -->
 
-<button class="button button-primary" (click)="subscribeToNotifications()">
+<!-- <button class="button button-primary" (click)="subscribeToNotifications()">
   Subscribe
 </button>
 
 <button class="button button-primary" (click)="sendPushnotification()">
   Send
+</button> -->
+
+<br><br><br>
+<button class="button button-primary" (click)="showPDF()">
+  Show pdf
 </button>
+
+<br><br>
+<!-- Using node plugin  -->
+<!-- <ngx-extended-pdf-viewer [src]="'http://www.africau.edu/images/default/sample.pdf'" useBrowserLocale="true" height="80vh" delayFirstView="1000"> -->
+  <ngx-extended-pdf-viewer [src]="'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf'" useBrowserLocale="true" height="80vh" delayFirstView="1000">
+</ngx-extended-pdf-viewer>
+<button class="button button-primary" (click)="share()">
+  Share
+</button>
+<!-- Just views without any other options for pdf but doesnt view proper in phones -->
+<!-- <object
+  data="http://www.africau.edu/images/default/sample.pdf"
+  type="application/pdf"
+  width="100%"
+  height="100%">
+  <iframe
+    src="http://www.africau.edu/images/default/sample.pdf"
+    width="100%"
+    height="100%"
+    style="border: none;">
+    <p>Your browser does not support PDFs.
+      <a href="http://www.africau.edu/images/default/sample.pdf">Download the PDF</a>.</p>
+  </iframe>
+</object> -->
 
 <div *ngIf="!randomData">
   <p>
